@@ -103,11 +103,11 @@ source $ZSH/oh-my-zsh.sh
 #
 
 source ~/.zplug/init.zsh
-zplug "zsh-users/zsh-history-substring-search"
-zplug "Jxck/dotfiles", as:command, use:"bin/{histuniq,color}"
-zplug "tcnksm/docker-alias", use:zshrc
-
+zplug "wting/autojump"
 zplug "zsh-users/zsh-syntax-highlighting", defer:2
+zplug "zsh-users/zsh-autosuggestions"
+zplug "zsh-users/zsh-completions"
+zplug "zsh-users/zsh-history-substring-search"
 zplug 'dracula/zsh', as:theme
 
 # Install plugins if there are plugins that have not been installed
