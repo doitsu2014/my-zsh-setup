@@ -127,10 +127,12 @@ if ! zplug check --verbose; then
 fi
 zplug load --verbose
 
-# cargo bin 
-export PATH="$HOME/.cargo/bin:$PATH"
+# bin
+export PATH="$HOME/bin:$PATH"
 # local bin
 export PATH="$HOME/.local/bin:$PATH"
+# cargo bin 
+export PATH="$HOME/.cargo/bin:$PATH"
 # dotnet tools
 export PATH="$HOME/.dotnet/tools:$PATH"
 
