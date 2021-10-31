@@ -125,7 +125,7 @@ if ! zplug check --verbose; then
         echo; zplug install
     fi
 fi
-zplug load --verbose
+zplug load
 
 # bin
 export PATH="$HOME/bin:$PATH"
@@ -138,3 +138,5 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+sh ~/hello.sh
