@@ -140,3 +140,5 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 sh ~/hello.sh
+
+export PATH="$PATH:`pwd`/Software/flutter/bin"
