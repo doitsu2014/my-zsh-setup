@@ -77,7 +77,7 @@ export ZSH=~/.oh-my-zsh
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(git docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -141,4 +141,9 @@ export PATH="$HOME/.dotnet/tools:$PATH"
 
 sh ~/hello.sh
 
-export PATH="$PATH:`pwd`/Software/flutter/bin"
+
+# Setting for the new UTF-8 terminal support in Lion
+LC_CTYPE=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+
+# export PATH="$PATH:`pwd`/Software/flutter/bin"
