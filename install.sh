@@ -13,4 +13,4 @@ sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.
 # install zplug
 curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
 bash ./copy-zshrc.sh
-bash ./install_nerd_fonts.sh
+#bash ./install_nerd_fonts.sh
