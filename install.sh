@@ -2,6 +2,8 @@ if [ "$(uname)" == "Darwin"  ]; then
     brew install zsh
     chsh -s /usr/local/bin/zsh
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux"  ]; then
+    echo 'start install zsh on Linux'
+    sudo apt-get update
     # this if statement is used to install dependency packages of ubuntu which has the version > 16.x.x
     sudo apt-get install zsh -y
     chsh -s $(which zsh)
