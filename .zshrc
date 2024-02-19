@@ -149,3 +149,5 @@ LC_ALL=en_US.UTF-8
 # export PATH="$PATH:`pwd`/Software/flutter/bin"
 
 source <(kubectl completion zsh)
+export PATH=$PATH:/usr/bin/nvim-linux64/bin
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
