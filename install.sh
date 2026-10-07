@@ -1,32 +1,85 @@
+#!/usr/bin/env bash
+set -e
+
+# Run from the repo directory so relative paths (copy-zshrc.sh, .zshrc, ...) resolve
+cd "$(dirname "$0")"
+
+OS="$(uname -s)"
+ZSH_DIR="${ZSH:-$HOME/.oh-my-zsh}"
+ZPLUG_DIR="${ZPLUG_HOME:-$HOME/.zplug}"
+
+install_or_upgrade_zsh() {
+    case "$OS" in
+        Darwin)
+            if brew list zsh &>/dev/null; then
+                brew upgrade zsh || true
+            else
+                brew install zsh
+            fi
+            ;;
+        Linux)
+            sudo apt-get update
+            if dpkg -s zsh &>/dev/null; then
+                sudo apt-get install --only-upgrade zsh -y
+            else
+                sudo apt-get install zsh -y
+            fi
+            ;;
+    esac
+}
+
+set_default_shell() {
+    local zsh_path
+    zsh_path="$(command -v zsh)"
+    if [ "$(basename "$SHELL")" != "zsh" ]; then
+        chsh -s "$zsh_path"
+    fi
+}
+
+install_or_update_oh_my_zsh() {
+    if [ -d "$ZSH_DIR" ]; then
+        echo "Updating oh-my-zsh..."
+        ZSH="$ZSH_DIR" zsh -f "$ZSH_DIR/tools/upgrade.sh" || git -C "$ZSH_DIR" pull --rebase --stat
+    else
+        echo "Installing oh-my-zsh..."
+        # --unattended: don't switch into zsh or change shell; --keep-zshrc: we copy our own
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended --keep-zshrc
+    fi
+}
+
+install_or_update_zplug() {
+    if [ -d "$ZPLUG_DIR" ]; then
+        echo "Updating zplug..."
+        git -C "$ZPLUG_DIR" pull --rebase --stat
+    else
+        echo "Installing zplug..."
+        curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
+    fi
+}
+
+install_or_update_zplug_plugins() {
+    echo "Installing/updating zplug plugins..."
+    # Load only the zplug section of .zshrc so oh-my-zsh/p10k don't run in a non-interactive shell
+    zsh -c "
+        source '$ZPLUG_DIR/init.zsh'
+        $(grep -E '^zplug "' ~/.zshrc)
+        zplug check || zplug install
+        zplug update
+    "
+}
+
 if command -v zsh &>/dev/null; then
-    echo "zsh is already installed, updating and recopying hello.sh..."
-    if [ "$(uname)" == "Darwin" ]; then
-        brew upgrade zsh
-    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-        sudo apt-get update
-        sudo apt-get install --only-upgrade zsh -y
-    fi
-    cp -r ./hello.sh ~/hello.sh
-    cp -r ./.zshrc ~/.zshrc
+    echo "zsh is already installed, updating zsh, oh-my-zsh, zplug and plugins..."
 else
-    if [ "$(uname)" == "Darwin" ]; then
-        brew install zsh
-        chsh -s /usr/local/bin/zsh
-    elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
-        echo 'start install zsh on Linux'
-        sudo apt-get update
-        sudo apt-get install zsh -y
-        chsh -s $(which zsh)
-    fi
-
-    # install oh my zsh
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-
-    # install zplug
-    curl -sL --proto-redir -all,https https://raw.githubusercontent.com/zplug/installer/master/installer.zsh | zsh
-
-    bash ./copy-zshrc.sh
+    echo "Installing zsh..."
 fi
+
+install_or_upgrade_zsh
+set_default_shell
+install_or_update_oh_my_zsh
+install_or_update_zplug
+bash ./copy-zshrc.sh
+install_or_update_zplug_plugins
 
 echo ""
 echo "======================================================"

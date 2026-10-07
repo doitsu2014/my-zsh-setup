@@ -7,7 +7,7 @@ fi
 export ZSH=~/.oh-my-zsh
 
 # Plugins
-plugins=(git docker docker-compose)
+plugins=(git docker docker-compose kubectl helm)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -46,15 +46,6 @@ export LC_ALL=en_US.UTF-8
 export NVM_DIR="$HOME/.nvm"
 [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/nvm.sh"
 [ -s "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/home/linuxbrew/.linuxbrew/opt/nvm/etc/bash_completion.d/nvm"
-
-# kubectl completion (lazy-loaded)
-if command -v kubectl &>/dev/null; then
-    kubectl() {
-        unfunction kubectl
-        source <(kubectl completion zsh)
-        kubectl "$@"
-    }
-fi
 
 # Powerlevel10k
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
